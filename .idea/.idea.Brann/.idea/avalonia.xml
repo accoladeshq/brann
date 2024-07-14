@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="src/WinApp/App.axaml" value="src/WinApp/WinApp.csproj" />
+        <entry key="src/WinApp/Views/MainWindow.axaml" value="src/WinApp/WinApp.csproj" />
+        <entry key="src/WinApp/Views/SplashView.axaml" value="src/WinApp/WinApp.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

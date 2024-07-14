@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Accolades.Brann.ViewModels"
+        xmlns:localizations="clr-namespace:Accolades.Brann.Localizations"
+        xmlns:core="clr-namespace:Accolades.Brann.Core;assembly=Accolades.Brann.Core"
+        mc:Ignorable="d" x:Class="Accolades.Brann.Views.PaletteView"
+        x:DataType="viewModels:PaletteViewModel"
+        WindowStartupLocation="CenterOwner"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="0"
+        SizeToContent="WidthAndHeight" SystemDecorations="BorderOnly" CanResize="False"
+        Title="{x:Static localizations:Resources.ApplicationName}"
+        Loaded="OnLoaded">
+    
+    
+    <Grid RowDefinitions="Auto,*,Auto" Height="600" Width="800">
+        <TextBox x:Name="SearchBox" Padding="20" KeyDown="OnKeyDown" Text="{Binding SuggestionProvider.SearchTerm, Mode=TwoWay}"></TextBox>
+        
+        <ListBox Padding="0" x:Name="SuggestionsBox" Grid.Row="1" CornerRadius="0,0,10,10" ItemsSource="{Binding SuggestionProvider.Suggestions }">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="core:ISuggestionCategory">
+                    <Grid ColumnDefinitions="*,auto">
+                        <!-- <TextBlock Padding="10" Text="{Binding Name}"></TextBlock> -->
+                        <TextBlock Grid.Column="1" Padding="10" Text="{Binding Type}" FontWeight="ExtraLight"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+        
+</Window>

@@ -1,0 +1,17 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localization="clr-namespace:Accolades.Brann.Localizations"
+        mc:Ignorable="d"
+        Width="500" Height="250"
+        x:Class="Accolades.Brann.Views.SplashView"
+        WindowStartupLocation="CenterOwner"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="0">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="16">
+        <Image Source="/Assets/logo.png" Width="150" Height="150" RenderOptions.BitmapInterpolationMode="HighQuality" />
+        <TextBlock HorizontalAlignment="Center" Classes="h1" Text="{x:Static localization:Resources.SplashView_Loading_Text }"></TextBlock>
+    </StackPanel>
+</Window>

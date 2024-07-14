@@ -1,0 +1,12 @@
+<Project>
+
+    <PropertyGroup>
+        <AssemblyName>Accolades.Brann.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>Accolades.Brann.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>11</LangVersion>
+    </PropertyGroup>
+
+</Project>

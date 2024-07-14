@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Core\Core.csproj" />
+      <ProjectReference Include="..\Plugins\Plugins.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Splat" Version="15.1.1" />
+    </ItemGroup>
+
+</Project>
