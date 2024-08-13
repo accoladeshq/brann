@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?include $(sys.CURRENTDIR)\Common.wxi?>
+
+	<Fragment>
+		<DirectoryRef Id="INSTALLFOLDER" FileSource="$(var.BinDir)">
+			<Component Id="brann_exe" Win64="yes" Guid="">
+				<File Id="Brann.exe" Checksum="yes" />
+			</Component>
+		</DirectoryRef>
+
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="BrannStartMenuShortcut" >
+				<Shortcut Id="ApplicationStartMenuShortcut"
+				Name="Brann (Preview)"
+				Description="Brann - Assistant"
+				Target="[!Brann.exe]"
+				WorkingDirectory="INSTALLFOLDER">
+				</Shortcut>
+				<RemoveFolder Id="CleanUpStartMenuShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+				<!-- ApplicationStartMenuShortcut is implicitly installed in HKCU, so WIX won't allow changing this reg value to HKLM. -->
+				<RegistryValue Root="HKCU" Key="Software\Accolades\Brann" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="CoreComponents">
+			<ComponentRef Id="brann_exe" />
+			<ComponentRef Id="BrannStartMenuShortcut"/>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
