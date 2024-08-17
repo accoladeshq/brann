@@ -17,7 +17,7 @@ env:
 jobs:
     version:
         name: Version
-        runs-on: windows-2019
+        runs-on: windows-2022
         outputs:
             informationVersion: ${{ steps.version.outputs.informationalVersion }} 
             fileVersion: ${{ steps.version.outputs.majorMinorPatch }}
@@ -44,7 +44,7 @@ jobs:
                 include:
                   - os: macos-14
                     name: macOS
-                  - os: windows-2019
+                  - os: windows-2022
                     name: Windows
 
         name: Build ${{ matrix.name }}
@@ -97,7 +97,7 @@ jobs:
             include:
               - os: macos-14
                 name: macOS
-              - os: windows-2019
+              - os: windows-2022
                 name: Windows
 
       name: Test ${{ matrix.name }}
@@ -111,7 +111,7 @@ jobs:
             key: ${{ matrix.name }}-unit-tests
         
         - name: Run unit tests
-          if: matrix.os == 'windows-2019'
+          if: matrix.os == 'windows-2022'
           run: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }}/Accolades.Brann.Unit.Tests.exe
 
         - name: Run unit tests
@@ -122,7 +122,7 @@ jobs:
       strategy:
         matrix:
           include:
-            - os: windows-2019
+            - os: windows-2022
               name: Windows
       
       name: Package ${{ matrix.name }}
