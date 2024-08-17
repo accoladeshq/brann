@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
 	<?define RepoDir="$(var.ProjectDir)..\..\" ?>
-	<?define BinDir="$(var.RepoDir)src\WinApp\bin\$(var.Configuration)\net7.0\" ?>
+	<?define BinDir="$(var.RepoDir)artifacts\binaries" ?>
 	<?define DefaultInstallDir="ProgramFiles64Folder" ?>
 </Include>

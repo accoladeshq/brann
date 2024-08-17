@@ -74,10 +74,10 @@ jobs:
             run: dotnet build --no-restore /p:FileVersion=${{ env.APP_FILE_VERSION }} /p:AssemblyVersion=${{ env.APP_VERSION }} /p:InformationalVersion=${{ env.APP_INFORMATION_VERSION }}
             
           - name: Publish application
-            run: dotnet publish ${{ env.APP_PROJECT_PATH }} -o ${{ env.APP_BINARIES_FOLDER }} --no-restore --no-build
+            run: dotnet publish ${{ env.APP_PROJECT_PATH }} --no-restore --no-build
             
           - name: Publish updater
-            run: dotnet publish ${{ env.UPDATER_PROJECT_PATH }} -o ${{ env.APP_BINARIES_FOLDER }} --no-restore --no-build
+            run: dotnet publish ${{ env.UPDATER_PROJECT_PATH }} --no-restore --no-build
 
           - name: Publish unit tests
             run: dotnet publish ${{ env.APP_UNIT_TESTS_PATH }} -o ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }} --no-restore --no-build

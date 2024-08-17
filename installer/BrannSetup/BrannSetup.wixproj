@@ -4,9 +4,6 @@
   <Import Project="..\..\src\Version.props" Condition="Exists('..\..\src\Version.props')" />
   <PropertyGroup Condition="'$(Platform)' == 'x64'">
     <DefineConstants>Version=$(Version)</DefineConstants>
-    <PreBuildEvent>
-        dotnet publish -c Release $(SolutionDir)../src/WinApp/WinApp.csproj
-      </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <Name>BrannInstaller</Name>
