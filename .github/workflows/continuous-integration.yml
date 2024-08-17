@@ -15,6 +15,7 @@ env:
     APP_BINARIES_FOLDER: ${{ github.workspace }}/artifacts/binaries
     APP_UNIT_TESTS_PATH: ${{ github.workspace }}/tests/Unit.Tests/Unit.Tests.csproj
     APP_UNIT_TESTS_BINARIES_FOLDER: ${{ github.workspace }}/artifacts/unit-tests
+    APP_SETUP_FOLDER: ${{ github.workspace }}/installer/BrannSetup/x64/Release/Setup
 
 jobs:
     version:
@@ -160,3 +161,8 @@ jobs:
           run: |
             cd installer
             msbuild ${{ env.INSTALLER_PROJECT_PATH }} /t:build /p:Configuration=Release
+
+        - uses: actions/upload-artifact@v4
+          with:
+            name: setups
+            path: ${{ env.APP_SETUP_FOLDER }}
