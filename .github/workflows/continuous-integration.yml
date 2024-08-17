@@ -126,8 +126,13 @@ jobs:
               name: Windows
       
       name: Package ${{ matrix.name }}
-      needs: build
+      needs: [version,build]
       runs-on: ${{ matrix.os }}
+
+      env:
+        APP_INFORMATION_VERSION: ${{ needs.version.outputs.informationVersion }}
+        APP_FILE_VERSION: ${{ needs.version.outputs.fileVersion }}
+        APP_VERSION: ${{ needs.version.outputs.version }}
 
       steps:
         - uses: actions/checkout@v4
