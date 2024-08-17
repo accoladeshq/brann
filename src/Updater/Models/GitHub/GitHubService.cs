@@ -37,10 +37,9 @@ internal class GitHubService : IGitHubService
     }
 
     /// <inheritdoc cref="DownloadInstaller"/>
-    public async Task<Uri> DownloadInstaller(GithubRelease release)
+    public async Task<Uri> DownloadInstaller(GithubRelease release, Uri tempDirectory)
     {
-        var tempFolder = Directory.CreateTempSubdirectory();
-        var installerPath = Path.Join(tempFolder.FullName, release.Asset.Name);
+        var installerPath = Path.Join(tempDirectory.AbsolutePath, release.Asset.Name);
         
         await using var fileStream = new FileStream(installerPath, FileMode.CreateNew);
 

@@ -4,15 +4,21 @@ namespace Accolades.Brann.Updater.Models;
 
 internal class FileSystemService : IFileSystemService
 {
+    private readonly Lazy<Uri> _tempDirectory = new(() => Directory.CreateTempSubdirectory().FullName.ToUri());
+
     public Uri CopySelfToTempDir()
     {
-        var tempDirectory = Directory.CreateTempSubdirectory();
-        var destinationPath = Path.Join(tempDirectory.FullName, "Brann.Update.exe").ToUri();
+        var destinationPath = Path.Join(_tempDirectory.Value.AbsolutePath, "Brann.Update.exe").ToUri();
         var sourcePath = GetExecutablePath();
         
         File.Copy(sourcePath.AbsolutePath, destinationPath.AbsolutePath);
         
         return destinationPath;
+    }
+
+    public Uri GetTempDirectory()
+    {
+        return _tempDirectory.Value;
     }
 
     public void StartProcess(string absolutePath, params string[] parameters)

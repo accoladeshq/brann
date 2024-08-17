@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Accolades.Brann.Updater.Models;
+using Serilog;
 using Spectre.Console.Cli;
 
 namespace Accolades.Brann.Updater;
@@ -29,14 +30,14 @@ internal class UpdateCommand : AsyncCommand<UpdaterSettings>
     /// <returns></returns>
     public override async Task<int> ExecuteAsync(CommandContext context, UpdaterSettings settings)
     {
-        Debugger.Launch();
-        
         switch (settings.Stage)
         {
             case 1:
+                Log.Information("Run stage 1 updater");
                 await HandleStage1();
                 break;
             case 2:
+                Log.Information($"Run stage 2 updater for installer {settings.Installer}");
                 break;
         }
 
@@ -45,8 +46,9 @@ internal class UpdateCommand : AsyncCommand<UpdaterSettings>
 
     private async Task HandleStage1()
     {
+        var tempDirectory = _fileSystemService.GetTempDirectory();
         var release = await _githubService.GetLatestRelease();
-        var installerPath = await _githubService.DownloadInstaller(release);
+        var installerPath = await _githubService.DownloadInstaller(release, tempDirectory);
         
         var updatedTempUri = _fileSystemService.CopySelfToTempDir();
         _fileSystemService.StartProcess(
