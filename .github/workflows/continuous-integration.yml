@@ -40,6 +40,8 @@ jobs:
           - name: Determine Version
             id: version
             uses: gittools/actions/gitversion/execute@v1.1.1   
+            with:
+              useConfigFile: true
 
     build:
         strategy:
