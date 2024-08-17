@@ -55,9 +55,9 @@ jobs:
         runs-on: ${{ matrix.os }}
 
         env:
-            APP_INFORMATION_VERSION: ${{ needs.version.outputs.informationVersion }}
-            APP_FILE_VERSION: ${{ needs.version.outputs.fileVersion }}
-            APP_VERSION: ${{ needs.version.outputs.version }}
+          APP_INFORMATION_VERSION: ${{ needs.version.outputs.informationVersion }}
+          APP_FILE_VERSION: ${{ needs.version.outputs.fileVersion }}
+          APP_VERSION: ${{ needs.version.outputs.version }}
 
         steps:
           - name: Clone repository
@@ -166,3 +166,26 @@ jobs:
           with:
             name: setups
             path: ${{ env.APP_SETUP_FOLDER }}
+
+
+    release:
+      needs: [version,package]
+      runs-on: windows-2022
+
+      env:
+        APP_VERSION: ${{ needs.version.outputs.version }}
+
+      steps:
+        - uses: actions/download-artifact@v4
+          with:
+            name: setups
+
+        - uses: gittools/actions/gitreleasemanager/create@v3.0.0
+          name: Create release with GitReleaseManager
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            owner: 'accoladeshq'
+            repository: 'brann'
+            name: 'v${{ env.APP_VERSION }}'
+            assets:  |
+              Brann-0.0.1-x64.msi
