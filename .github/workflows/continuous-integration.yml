@@ -201,3 +201,4 @@ jobs:
             token: ${{ secrets.GITHUB_TOKEN }}
             owner: 'accoladeshq'
             repository: 'brann'
+            tagName: ${{ env.APP_VERSION }}
