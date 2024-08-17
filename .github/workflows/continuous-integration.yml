@@ -86,12 +86,12 @@ jobs:
           - name: Publish unit tests
             run: dotnet publish ${{ env.APP_UNIT_TESTS_PATH }} -c ${{ env.APP_CONFIGURATION }} -o ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }} --no-restore --no-build
 
-          - uses: actions/cache@v3
+          - uses: actions/cache@v4
             with:
               path: ${{ env.APP_BINARIES_FOLDER}}
               key: ${{ matrix.name }}-app
 
-          - uses: actions/cache@v3
+          - uses: actions/cache@v4
             with:
               path: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER}}
               key: ${{ matrix.name }}-unit-tests
@@ -110,7 +110,7 @@ jobs:
       runs-on: ${{ matrix.os }}
 
       steps:
-        - uses: actions/cache@v3
+        - uses: actions/cache@v4
           with:
             path: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER}}
             key: ${{ matrix.name }}-unit-tests
@@ -145,7 +145,7 @@ jobs:
         - name: Clone repository
           uses: actions/checkout@v4
 
-        - uses: actions/cache@v3
+        - uses: actions/cache@v4
           with:
             path: ${{ env.APP_BINARIES_FOLDER}}
             key: ${{ matrix.name }}-app
