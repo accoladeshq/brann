@@ -175,30 +175,20 @@ jobs:
       env:
         APP_VERSION: ${{ needs.version.outputs.version }}
 
+      permissions:
+        contents: write
+
       steps:
         - uses: actions/download-artifact@v4
           with:
             name: setups
 
-        - name: Setup GitReleaseManager
-          uses: gittools/actions/gitreleasemanager/setup@v3.0.0
+        - uses: ncipollo/release-action@v1
           with:
-            versionSpec: '0.18.x'
-
-        - uses: gittools/actions/gitreleasemanager/create@v3.0.0
-          name: Create release with GitReleaseManager
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            owner: 'accoladeshq'
-            repository: 'brann'
+            artifacts: Brann-${{ env.APP_VERSION }}-x64.msi
+            draft: true
             name: 'v${{ env.APP_VERSION }}'
-            assets:  |
-              Brann-${{ env.APP_VERSION }}-x64.msi
-
-        - uses: gittools/actions/gitreleasemanager/publish@v3.0.0
-          name: Publish release with GitReleaseManager
-          with:
+            owner: accoladeshq
+            repo: brann
+            tag: ${{ env.APP_VERSION }}
             token: ${{ secrets.GITHUB_TOKEN }}
-            owner: 'accoladeshq'
-            repository: 'brann'
-            tagName: 'v${{ env.APP_VERSION }}'
