@@ -8,6 +8,7 @@ on:
 
 env:
     DOTNET_VERSION: 7.0.x
+    APP_CONFIGURATION: Release
     APP_PROJECT_PATH: ${{ github.workspace }}/src/WinApp/WinApp.csproj
     UPDATER_PROJECT_PATH: ${{ github.workspace }}/src/Updater/Updater.csproj
     INSTALLER_PROJECT_PATH: ${{ github.workspace }}/installer/BrannSetup.sln
@@ -71,16 +72,16 @@ jobs:
             run: dotnet restore
 
           - name: Build solution
-            run: dotnet build --no-restore /p:FileVersion=${{ env.APP_FILE_VERSION }} /p:AssemblyVersion=${{ env.APP_VERSION }} /p:InformationalVersion=${{ env.APP_INFORMATION_VERSION }}
+            run: dotnet build -c ${{ env.APP_CONFIGURATION }} --no-restore /p:FileVersion=${{ env.APP_FILE_VERSION }} /p:AssemblyVersion=${{ env.APP_VERSION }} /p:InformationalVersion=${{ env.APP_INFORMATION_VERSION }}
             
           - name: Publish application
-            run: dotnet publish ${{ env.APP_PROJECT_PATH }} --no-restore --no-build
+            run: dotnet publish ${{ env.APP_PROJECT_PATH }} -c ${{ env.APP_CONFIGURATION }} --no-restore --no-build
             
           - name: Publish updater
-            run: dotnet publish ${{ env.UPDATER_PROJECT_PATH }} --no-restore --no-build
+            run: dotnet publish ${{ env.UPDATER_PROJECT_PATH }} -c ${{ env.APP_CONFIGURATION }} --no-restore --no-build
 
           - name: Publish unit tests
-            run: dotnet publish ${{ env.APP_UNIT_TESTS_PATH }} -o ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }} --no-restore --no-build
+            run: dotnet publish ${{ env.APP_UNIT_TESTS_PATH }} -c ${{ env.APP_CONFIGURATION }} -o ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }} --no-restore --no-build
 
           - uses: actions/cache@v3
             with:
