@@ -15,6 +15,12 @@ internal class FileSystemService : IFileSystemService
         return destinationPath;
     }
 
+    public void StartProcess(string absolutePath, params string[] parameters)
+    {
+        var process = Process.Start(absolutePath, parameters);
+        process.WaitForExit();
+    }
+
     private Uri GetExecutablePath()
     {
         var module = Process.GetCurrentProcess().MainModule;

@@ -1,4 +1,5 @@
-﻿using Accolades.Brann.Updater.Models;
+﻿using System.Diagnostics;
+using Accolades.Brann.Updater.Models;
 using Spectre.Console.Cli;
 
 namespace Accolades.Brann.Updater;
@@ -12,7 +13,7 @@ internal class UpdateCommand : AsyncCommand<UpdaterSettings>
     /// <summary>
     /// Initialize a new <see cref="UpdateCommand"/>
     /// </summary>
-    /// <param name="githubService">The github service.</param>
+    /// <param name="githubService">The gitHub service.</param>
     /// <param name="fileSystemService">The file system service.</param>
     public UpdateCommand(IGitHubService githubService, IFileSystemService fileSystemService)
     {
@@ -28,6 +29,8 @@ internal class UpdateCommand : AsyncCommand<UpdaterSettings>
     /// <returns></returns>
     public override async Task<int> ExecuteAsync(CommandContext context, UpdaterSettings settings)
     {
+        Debugger.Launch();
+        
         switch (settings.Stage)
         {
             case 1:
@@ -42,6 +45,14 @@ internal class UpdateCommand : AsyncCommand<UpdaterSettings>
 
     private async Task HandleStage1()
     {
-        var latest = await _githubService.GetLatestRelease();
+        var release = await _githubService.GetLatestRelease();
+        var installerPath = await _githubService.DownloadInstaller(release);
+        
+        var updatedTempUri = _fileSystemService.CopySelfToTempDir();
+        _fileSystemService.StartProcess(
+            updatedTempUri.AbsolutePath,
+            "--stage", "2",
+            "--installer", $"{installerPath.AbsolutePath}"
+        );
     }
 }
