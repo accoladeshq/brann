@@ -74,6 +74,9 @@ jobs:
           - name: Publish application
             run: dotnet publish ${{ env.APP_PROJECT_PATH }} -o ${{ env.APP_BINARIES_FOLDER }} --no-restore --no-build
             
+          - name: Publish updater
+            run: dotnet publish ${{ env.UPDATED_PROJECT_PATH }} -o ${{ env.APP_BINARIES_FOLDER }} --no-restore --no-build
+
           - name: Publish unit tests
             run: dotnet publish ${{ env.APP_UNIT_TESTS_PATH }} -o ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }} --no-restore --no-build
 
@@ -114,3 +117,26 @@ jobs:
           if: matrix.os == 'macos-14'
           run: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }}/Accolades.Brann.Unit.Tests
           
+    package:
+      strategy:
+        matrix:
+          include:
+            - os: windows-2019
+              name: Windows
+      
+      name: Package ${{ matrix.name }}
+      needs: build
+      runs-on: ${{ matrix.os }}
+
+      steps:
+        - uses: actions/checkout@v4
+
+        - name: Clone repository
+          uses: actions/checkout@v4
+
+        - name: Setup dotnet
+          uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: | 
+              ${{ env.DOTNET_VERSION }}
+
