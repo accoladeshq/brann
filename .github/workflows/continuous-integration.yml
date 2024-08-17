@@ -9,6 +9,7 @@ on:
 env:
     DOTNET_VERSION: 7.0.x
     APP_PROJECT_PATH: ${{ github.workspace }}/src/WinApp/WinApp.csproj
+    UPDATER_PROJECT_PATH: ${{ github.workspace }}/src/Updater/Updater.csproj
     APP_BINARIES_FOLDER: ${{ github.workspace }}/artifacts/binaries
     APP_UNIT_TESTS_PATH: ${{ github.workspace }}/tests/Unit.Tests/Unit.Tests.csproj
     APP_UNIT_TESTS_BINARIES_FOLDER: ${{ github.workspace }}/artifacts/unit-tests
@@ -75,15 +76,15 @@ jobs:
             run: dotnet publish ${{ env.APP_PROJECT_PATH }} -o ${{ env.APP_BINARIES_FOLDER }} --no-restore --no-build
             
           - name: Publish updater
-            run: dotnet publish ${{ env.UPDATED_PROJECT_PATH }} -o ${{ env.APP_BINARIES_FOLDER }} --no-restore --no-build
+            run: dotnet publish ${{ env.UPDATER_PROJECT_PATH }} -o ${{ env.APP_BINARIES_FOLDER }} --no-restore --no-build
 
           - name: Publish unit tests
             run: dotnet publish ${{ env.APP_UNIT_TESTS_PATH }} -o ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }} --no-restore --no-build
 
-          - uses: actions/upload-artifact@v4
+          - uses: actions/cache@v3
             with:
-              name: brann-${{ matrix.name }}
-              path: ${{ env.APP_BINARIES_FOLDER }}
+              path: ${{ env.APP_BINARIES_FOLDER}}
+              key: ${{ matrix.name }}-app
 
           - uses: actions/cache@v3
             with:
@@ -134,9 +135,18 @@ jobs:
         - name: Clone repository
           uses: actions/checkout@v4
 
+        - uses: actions/cache@v3
+          with:
+            path: ${{ env.APP_BINARIES_FOLDER}}
+            key: ${{ matrix.name }}-app
+
         - name: Setup dotnet
           uses: actions/setup-dotnet@v4
           with:
             dotnet-version: | 
               ${{ env.DOTNET_VERSION }}
 
+        - name: Build solution
+          run: |
+          cd installer
+          dotnet build --no-restore /p:FileVersion=${{ env.APP_FILE_VERSION }} /p:AssemblyVersion=${{ env.APP_VERSION }} /p:InformationalVersion=${{ env.APP_INFORMATION_VERSION }}
