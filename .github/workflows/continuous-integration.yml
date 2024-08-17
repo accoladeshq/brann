@@ -10,6 +10,7 @@ env:
     DOTNET_VERSION: 7.0.x
     APP_PROJECT_PATH: ${{ github.workspace }}/src/WinApp/WinApp.csproj
     UPDATER_PROJECT_PATH: ${{ github.workspace }}/src/Updater/Updater.csproj
+    INSTALLER_PROJECT_PATH: ${{ github.workspace }}/installer/BrannSetup/BrannSetup.wixproj
     APP_BINARIES_FOLDER: ${{ github.workspace }}/artifacts/binaries
     APP_UNIT_TESTS_PATH: ${{ github.workspace }}/tests/Unit.Tests/Unit.Tests.csproj
     APP_UNIT_TESTS_BINARIES_FOLDER: ${{ github.workspace }}/artifacts/unit-tests
@@ -151,7 +152,10 @@ jobs:
             dotnet-version: | 
               ${{ env.DOTNET_VERSION }}
 
+        - name: Add msbuild to PATH
+          uses: microsoft/setup-msbuild@v2  
+
         - name: Build solution
           run: |
             cd installer
-            dotnet build --no-restore /p:FileVersion=${{ env.APP_FILE_VERSION }} /p:AssemblyVersion=${{ env.APP_VERSION }} /p:InformationalVersion=${{ env.APP_INFORMATION_VERSION }}
+            msbuild ${{ env.INSTALLER_PROJECT_PATH }}
