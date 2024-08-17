@@ -194,3 +194,10 @@ jobs:
             name: 'v${{ env.APP_VERSION }}'
             assets:  |
               Brann-0.0.1-x64.msi
+
+        - uses: gittools/actions/gitreleasemanager/publish@v3.0.0
+          name: Publish release with GitReleaseManager
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            owner: 'accoladeshq'
+            repository: 'brann'
