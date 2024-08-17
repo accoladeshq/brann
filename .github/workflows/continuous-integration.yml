@@ -180,6 +180,11 @@ jobs:
           with:
             name: setups
 
+        - name: Setup GitReleaseManager
+          uses: gittools/actions/gitreleasemanager/setup@v3.0.0
+          with:
+            versionSpec: '0.18.x'
+
         - uses: gittools/actions/gitreleasemanager/create@v3.0.0
           name: Create release with GitReleaseManager
           with:
