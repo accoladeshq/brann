@@ -14,6 +14,7 @@
 		<Feature Id="CoreFeature" Title="Brann" AllowAdvertise="no" Absent="disallow" TypicalDefault="install"
 				 Description="Contains all Brann features.">
 			<ComponentGroupRef Id="CoreComponents" />
+			<ComponentGroupRef Id="CoreGenerated"/>
 		</Feature>
 	</Product>
 	
