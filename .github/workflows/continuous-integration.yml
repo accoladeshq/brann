@@ -89,12 +89,12 @@ jobs:
           - uses: actions/cache@v4
             with:
               path: ${{ env.APP_BINARIES_FOLDER}}
-              key: ${{ matrix.name }}-app
+              key: ${{ matrix.name }}-app-${{ github.run_id }}
 
           - uses: actions/cache@v4
             with:
               path: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER}}
-              key: ${{ matrix.name }}-unit-tests
+              key: ${{ matrix.name }}-unit-tests-${{ github.run_id }}
 
     tests:
       strategy:
@@ -113,7 +113,7 @@ jobs:
         - uses: actions/cache@v4
           with:
             path: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER}}
-            key: ${{ matrix.name }}-unit-tests
+            key: ${{ matrix.name }}-unit-tests-${{ github.run_id }}
         
         - name: Run unit tests
           if: matrix.os == 'windows-2022'
@@ -148,7 +148,7 @@ jobs:
         - uses: actions/cache@v4
           with:
             path: ${{ env.APP_BINARIES_FOLDER}}
-            key: ${{ matrix.name }}-app
+            key: ${{ matrix.name }}-app-${{ github.run_id }}
 
         - name: Setup dotnet
           uses: actions/setup-dotnet@v4
