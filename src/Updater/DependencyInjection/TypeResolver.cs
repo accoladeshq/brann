@@ -1,6 +1,7 @@
 ﻿using Spectre.Console.Cli;
 
-namespace Accolades.Brann.Updater.DependencyInjection;
+// ReSharper disable once CheckNamespace
+namespace Accolades.Brann.DependencyInjection;
 
 public sealed class TypeResolver : ITypeResolver, IDisposable
 {

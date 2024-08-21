@@ -13,7 +13,7 @@ public class WixRoot
     {
     }
 
-    public WixRoot(string folder, string wixSourcePath)
+    public WixRoot(string folder, string[] includes)
     {
         WixFragment fr = new WixFragment();
         WixComponentGroup gr = new WixComponentGroup();
@@ -25,9 +25,12 @@ public class WixRoot
 
         Fragment = fr;
 
-        string publishDir = string.Format("{0}=\"$(sys.CURRENTDIR){1}\"", SOURCE_DIRECTORY_VARIABLE, wixSourcePath);
-        System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
-        Instruction = doc.CreateProcessingInstruction("define", publishDir);
+        foreach (var include in includes)
+        {
+            string publishDir = $"\"$(sys.CURRENTDIR){include}\"";
+            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+            Instruction = doc.CreateProcessingInstruction("include", publishDir);
+        }
     }
 
     [XmlAnyElement]

@@ -1,5 +1,5 @@
-﻿using Accolades.Brann.Updater;
-using Accolades.Brann.Updater.DependencyInjection;
+﻿using Accolades.Brann.DependencyInjection;
+using Accolades.Brann.Updater;
 using Accolades.Brann.Updater.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;

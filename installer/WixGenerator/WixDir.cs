@@ -12,8 +12,7 @@ public class WixDir
         Name = dir.Name;
         Id = PrepareID("Dir_", Name);
 
-        //получить файлы на этом уровне
-        string[] files = Directory.GetFiles(folderName).Where(f => !f.Contains(".exe") && !f.Contains(".pdb")).ToArray();
+        string[] files = dir.GetFiles().Select(fi => fi.FullName).Where(f => !f.Contains(".exe") && !f.Contains(".pdb")).ToArray();
         if (files != null && files.Length > 0)
         {
             WixComponent comp = new WixComponent(files, PrepareID("Comp_", Name));
@@ -79,11 +78,7 @@ public class WixDir
     }
 
     [XmlAttribute]
-    public string Name
-    {
-        get;
-        set;
-    }
+    public string? Name { get; set; }
 
     [XmlAttribute]
     public string Id

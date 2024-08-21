@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 
-namespace Accolades.Brann.Updater.DependencyInjection;
+// ReSharper disable once CheckNamespace
+namespace Accolades.Brann.DependencyInjection;
 
 public sealed class TypeRegistrar : ITypeRegistrar
 {

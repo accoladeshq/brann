@@ -1,17 +1,23 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Accolades.Brann.WixGenerator;
-using System.Xml.Serialization;
+﻿using Accolades.Brann.DependencyInjection;
+using Accolades.Brann.WixGenerator.Commands;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Spectre.Console.Cli;
 
-Console.WriteLine("Hello, World!");
+try
+{
+    Log.Logger = new LoggerConfiguration()
+        .WriteTo.Console()
+        .CreateLogger();
+    
+    var registrations = new ServiceCollection();
+    var registrar = new TypeRegistrar(registrations);
 
-var root = new WixRoot("D:\\Sources\\Repos\\GitHub\\brann\\artifacts\\binaries", "..\\..\\artifacts\\binaries");
-root.Fragment.ComponentGroup.Id = "CoreGenerated";
+    var app = new CommandApp<GenerateCommand>(registrar);
+    return app.Run(args);
+}
+finally
+{
+    await Log.CloseAndFlushAsync();
 
-var rootDirRef = root.Fragment.DirectoryRef;
-
-rootDirRef.Id = "INSTALLFOLDER";
-rootDirRef.Name = null;
-rootDirRef.FileSource = string.Format("$(var.{0})", WixRoot.SOURCE_DIRECTORY_VARIABLE);
-rootDirRef.DiskId = "1";
-
-root.Serialize("D:\\Sources\\Repos\\GitHub\\brann\\installer\\BrannSetup\\Generated.wxs");
+}

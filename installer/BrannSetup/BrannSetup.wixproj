@@ -22,7 +22,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Core.wxs" />
-    <Compile Include="Generated.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -44,4 +43,7 @@
   <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
     <Error Text="The WiX Toolset v3.11 build tools must be installed to build this project. To download the WiX Toolset, see https://wixtoolset.org/releases/v3.11/stable" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>dotnet run --project $(ProjectDir)..\WixGenerator\WixGenerator.csproj --binaries-folder ..\..\..\..\..\artifacts\binaries --include Common.wxi --component-group CoreGenerated --file-source BinDir --output $(ProjectDir)Generated.wxs</PreBuildEvent>
+  </PropertyGroup>
 </Project>
