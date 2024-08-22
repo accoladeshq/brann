@@ -1,66 +1,64 @@
-﻿using System.Xml.Serialization;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
 
 namespace Accolades.Brann.WixGenerator;
 
-[Serializable]
-[XmlRoot("Directory")]
 public class WixDir
 {
-    public WixDir()
-    {
-    }
-    
-    public WixDir(string installDirectoryRef, string? binariesDirectoryVariable, string? name = null)
+    /// <summary>
+    /// Initialize a new <see cref="WixDir"/>.
+    /// </summary>
+    /// <param name="installDirectoryRef">The installation directory reference.</param>
+    /// <param name="binariesDirectoryVariable">The binaries directory variable.</param>
+    /// <param name="name">The name of the directory.</param>
+    /// <param name="useIdFormatter">If we need to apply a formatter to the id.</param>
+    public WixDir(string installDirectoryRef, string? binariesDirectoryVariable, string? name = null, bool useIdFormatter = true)
     {
         _directories = new List<WixDir>();
         
-        Id = installDirectoryRef;
+        Id = useIdFormatter ? WixHelper.FormatId(null, installDirectoryRef.ToUpper()) : installDirectoryRef;
         FileSource = binariesDirectoryVariable is null ? null : $"$(var.{binariesDirectoryVariable})";
         Name = name;
     }
     
-    [XmlAttribute]
-    public string Id { get; init; } = null!;
+    /// <summary>
+    /// Gets the directory identifier.
+    /// </summary>
+    public string Id { get; }
     
-    [XmlAttribute]
-    public string? FileSource { get; init; }
+    /// <summary>
+    /// Gets the directory name.
+    /// </summary>
+    public string? Name { get; }
+    
+    /// <summary>
+    /// Gets the file source where binaries are stored.
+    /// </summary>
+    public string? FileSource { get; }
 
 
-    private readonly List<WixDir> _directories = null!;
+    private readonly List<WixDir> _directories;
     /// <summary>
     /// Gets the subdirectories.
     /// </summary>
-    [XmlElement("Directory")]
-    public WixDir[] Directories
-    {
-        get => _directories.ToArray();
-        init => _directories = new List<WixDir>(value);
-    }
-
-    private WixComponent? _component;
+    public WixDir[] Directories => _directories.ToArray();
 
     /// <summary>
     /// Gets the wix component link to this directory.
     /// </summary>
-    public WixComponent? Component
-    {
-        get => _component;
-        init => _component = value;
-    }
+    public WixComponent? Component { get; private set; }
 
-    [XmlAttribute] 
-    public string? Name { get; init; }
-
-    public void AddFile(string file)
+    public WixComponent? AddFile(string file)
     {
         var folders = file.Split(Path.DirectorySeparatorChar);
 
         if (folders.Length == 1)
         {
-            _component ??= new WixComponent("cmp_" + Id);
-            _component.AddFile(folders[0]);
-            
-            return;
+            Component ??= new WixComponent(Id);
+            Component.AddFile(folders[0]);
+
+            return Component;
         }
         
         var existingDirectory = _directories.SingleOrDefault(d => d.Name == folders[0]);
@@ -71,6 +69,6 @@ public class WixDir
             _directories.Add(existingDirectory);
         }
         
-        existingDirectory.AddFile(Path.Join(folders.Skip(1).ToArray()));
+        return existingDirectory.AddFile(Path.Join(folders.Skip(1).ToArray()));
     }
 }

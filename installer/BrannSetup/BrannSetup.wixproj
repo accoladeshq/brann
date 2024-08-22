@@ -45,6 +45,6 @@
     <Error Text="The WiX Toolset v3.11 build tools must be installed to build this project. To download the WiX Toolset, see https://wixtoolset.org/releases/v3.11/stable" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>dotnet run --project $(ProjectDir)..\WixGenerator\WixGenerator.csproj --binaries-folder ..\..\..\..\..\artifacts\binaries --include Common.wxi --component-group CoreGenerated --file-source BinDir --output $(ProjectDir)Generated.wxs</PreBuildEvent>
+    <PreBuildEvent>dotnet run --project $(ProjectDir)..\WixGenerator\WixGenerator.csproj --binaries-folder ..\..\..\..\..\artifacts\binaries --include Common.wxi --component-group CoreGenerated --install-folder INSTALLFOLDER --file-source BinariesDir --output $(ProjectDir)Generated.wxs</PreBuildEvent>
   </PropertyGroup>
 </Project>

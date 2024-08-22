@@ -1,4 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using System.Text;
+using System.Xml.Serialization;
+using Accolades.Brann.WixGenerator.Dtos;
 using AutoMapper;
 using Spectre.Console.Cli;
 
@@ -20,29 +22,21 @@ internal class GenerateCommand : AsyncCommand<GenerateSettings>
     
     public override Task<int> ExecuteAsync(CommandContext context, GenerateSettings settings)
     {
-        var wixBuilder = new WixBuilder(settings.BinariesFolder);
+        var wixBuilder = new WixBuilder(settings.BinariesFolder)
+            .WithInclude("Common.wxi")
+            .WithComponentGroupName(settings.ComponentGroup);
 
         var wix = wixBuilder.Build();
+        var wixDto = _mapper.Map<WixDto>(wix);
+        
+        using var stream = new StreamWriter(settings.Output, false, new UTF8Encoding());
 
-        using var sw = new StreamWriter(Console.OpenStandardOutput());
-        sw.AutoFlush = true;
-        Console.SetOut(sw);
+        var serializer = new XmlSerializer(typeof(WixDto));
 
-        var serializer = new XmlSerializer(typeof(Wix));
-        // ns.Add("", "http://schemas.microsoft.com/wix/2006/wi");
+        var ns = new XmlSerializerNamespaces();
+        ns.Add("", "http://schemas.microsoft.com/wix/2006/wi");
 
-        serializer.Serialize(sw, wix);
-        // var root = new WixRoot(settings.BinariesFolder, settings.InstallDirectoryRef, settings.Includes);
-        // root.Fragment.ComponentGroup.Id = settings.ComponentGroup;
-        //
-        // var rootDirRef = root.Fragment.DirectoryRef;
-        //
-        // rootDirRef.Id = settings.InstallDirectoryRef;
-        // rootDirRef.Name = null;
-        // rootDirRef.FileSource = $"$(var.{settings.FileSourceVariable})";
-        // rootDirRef.DiskId = "1";
-
-        // root.Serialize(settings.Output);
+        serializer.Serialize(stream, wixDto, ns);
 
         return Task.FromResult(0);
     }

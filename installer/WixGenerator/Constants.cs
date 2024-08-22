@@ -1,8 +1,8 @@
 ﻿namespace Accolades.Brann.WixGenerator;
 
-internal class Constants
+internal static class Constants
 {
     public const string InstallDirectoryRef = "INSTALLFOLDER";
     public const string BinariesDirectoryVariable = "BinariesDir";
-    public const int WixIdMaxLength = 34;
+    public const string ComponentGroupName = "Generated";
 }

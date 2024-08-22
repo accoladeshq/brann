@@ -3,7 +3,7 @@
 	<?include $(sys.CURRENTDIR)\Common.wxi?>
 
 	<Fragment>
-		<DirectoryRef Id="INSTALLFOLDER" FileSource="$(var.BinDir)">
+		<DirectoryRef Id="INSTALLFOLDER" FileSource="$(var.BinariesDir)">
 			<Component Id="brann_exe" Win64="yes" Guid="">
 				<File Id="Brann.exe" Checksum="yes" />
 			</Component>

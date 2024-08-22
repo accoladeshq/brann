@@ -1,14 +1,8 @@
-﻿using System.Xml.Serialization;
-
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace Accolades.Brann.WixGenerator;
 
 public class WixFile
 {
-    /// <summary>
-    /// Initialize a default <see cref="WixFile"/> used for serialization.
-    /// </summary>
-    public WixFile() { }
-    
     /// <summary>
     /// Initialize a new <see cref="WixFile"/>
     /// </summary>
@@ -22,12 +16,10 @@ public class WixFile
     /// <summary>
     /// Gets the file identifier.
     /// </summary>
-    [XmlAttribute]
-    public string Id { get; init; } = null!;
+    public string Id { get; }
     
     /// <summary>
     /// Gets the file name.
     /// </summary>
-    [XmlAttribute]
-    public string Name { get; init; } = null!;
+    public string Name { get; }
 }

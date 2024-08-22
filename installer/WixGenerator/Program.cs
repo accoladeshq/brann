@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Accolades.Brann.DependencyInjection;
 using Accolades.Brann.WixGenerator.Commands;
+using Accolades.Brann.WixGenerator.Profiles;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Spectre.Console.Cli;
@@ -12,7 +13,7 @@ try
         .CreateLogger();
     
     var registrations = new ServiceCollection();
-    registrations.AddAutoMapper(Assembly.GetAssembly(typeof(Program)));
+    registrations.AddAutoMapper(expression => expression.AddProfile<WixProfile>());
     
     var registrar = new TypeRegistrar(registrations);
 
