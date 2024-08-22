@@ -1,4 +1,5 @@
-﻿using Accolades.Brann.DependencyInjection;
+﻿using System.Reflection;
+using Accolades.Brann.DependencyInjection;
 using Accolades.Brann.WixGenerator.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -11,6 +12,8 @@ try
         .CreateLogger();
     
     var registrations = new ServiceCollection();
+    registrations.AddAutoMapper(Assembly.GetAssembly(typeof(Program)));
+    
     var registrar = new TypeRegistrar(registrations);
 
     var app = new CommandApp<GenerateCommand>(registrar);
