@@ -25,7 +25,6 @@ jobs:
       informationVersion: ${{ steps.version.outputs.informationalVersion }}
       fileVersion: ${{ steps.version.outputs.majorMinorPatch }}
       version: ${{ steps.version.outputs.assemblySemVer }}
-      semver: ${{ steps.version.outputs.semVer }}
 
     steps:
       - name: Checkout
@@ -171,7 +170,7 @@ jobs:
     name: Release
 
     env:
-      APP_VERSION: ${{ needs.version.outputs.semver }}
+      APP_VERSION: ${{ needs.version.outputs.fileVersion }}
 
     permissions:
       contents: write
