@@ -170,7 +170,8 @@ jobs:
     name: Release
 
     env:
-      APP_VERSION: ${{ needs.version.outputs.fileVersion }}
+      APP_VERSION: ${{ needs.version.outputs.version }}
+      APP_FILE_VERSION: ${{ needs.version.outputs.fileVersion }}
 
     permissions:
       contents: write
@@ -184,9 +185,9 @@ jobs:
         with:
           artifacts: Brann-${{ env.APP_VERSION }}-x64.msi
           draft: true
-          name: "v${{ env.APP_VERSION }}"
+          name: "v${{ env.APP_FILE_VERSION }}"
           owner: accoladeshq
           repo: brann
-          tag: "v${{ env.APP_VERSION }}"
+          tag: "v${{ env.APP_FILE_VERSION }}"
           token: ${{ secrets.GITHUB_TOKEN }}
           commit: ${{ github.sha }}
