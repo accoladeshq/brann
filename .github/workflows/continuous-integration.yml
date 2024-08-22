@@ -170,6 +170,7 @@ jobs:
     release:
       needs: [version,package]
       runs-on: windows-2022
+      name: Release
 
       env:
         APP_VERSION: ${{ needs.version.outputs.version }}
