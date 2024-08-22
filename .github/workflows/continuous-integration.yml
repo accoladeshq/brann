@@ -25,6 +25,7 @@ jobs:
       informationVersion: ${{ steps.version.outputs.informationalVersion }}
       fileVersion: ${{ steps.version.outputs.majorMinorPatch }}
       version: ${{ steps.version.outputs.assemblySemVer }}
+      semver: ${{ steps.version.outputs.semVer }}
 
     steps:
       - name: Checkout
@@ -132,9 +133,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      APP_INFORMATION_VERSION: ${{ needs.version.outputs.informationVersion }}
-      APP_FILE_VERSION: ${{ needs.version.outputs.fileVersion }}
-      APP_VERSION: ${{ needs.version.outputs.version }}
+      APP_VERSION: ${{ needs.version.outputs.semver }}
 
     steps:
       - uses: actions/checkout@v4
@@ -172,7 +171,7 @@ jobs:
     name: Release
 
     env:
-      APP_VERSION: ${{ needs.version.outputs.version }}
+      APP_VERSION: ${{ needs.version.outputs.semver }}
 
     permissions:
       contents: write
