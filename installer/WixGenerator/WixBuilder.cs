@@ -49,7 +49,7 @@ public class WixBuilder
         var wix = new Wix(_installDirectoryRef, _binariesFolderVariable, _componentGroupName, _include);
         
         var files = Directory.GetFiles(_binariesFolder, "*", SearchOption.AllDirectories)
-            .Where(f => !f.Contains(".exe"))
+            .Where(f => !f.Contains(".exe") && !f.Contains(".pdb"))
             .Select(p => p.Remove(0, _binariesFolder.Length + 1)) // We use +1 to remove the first slash
             .ToList();
 
