@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<?include $(sys.CURRENTDIR)\Common.wxi?>
+
+	<Product Id="*" Name="Brann (Preview)" Language="1033" Version="$(var.Version)" Manufacturer="Accolades" UpgradeCode="d6539bb9-ffea-4d38-9ac1-ca4025ed3914">
+		
+		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="CoreFeature" Title="Brann" AllowAdvertise="no" Absent="disallow" TypicalDefault="install"
+				 Description="Contains all Brann features.">
+			<ComponentGroupRef Id="CoreComponents" />
+			<ComponentGroupRef Id="CoreGenerated"/>
+		</Feature>
+	</Product>
+	
+	 <!-- Installation directory structure -->
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="$(var.DefaultInstallDir)">
+        <Directory Id="INSTALLFOLDER" Name="Brann">
+          <Directory Id="PluginsFolder" Name="Plugins"/>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Brann (Preview)"/>
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+  </Fragment>
+
+</Wix>

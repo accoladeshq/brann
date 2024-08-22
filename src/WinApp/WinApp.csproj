@@ -6,11 +6,11 @@
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
         <AssemblyName>Brann</AssemblyName>
         <RootNamespace>Accolades.Brann</RootNamespace>
+        <IsPublishable>true</IsPublishable>
     </PropertyGroup>
 
     <ItemGroup>
         <Folder Include="Avalonia\Controls\" />
-        <Folder Include="Models\"/>
         <AvaloniaResource Include="Assets\**"/>
     </ItemGroup>
 

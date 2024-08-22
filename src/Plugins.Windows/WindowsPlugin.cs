@@ -3,7 +3,7 @@ using Splat;
 
 namespace Accolades.Brann.Plugins.Windows;
 
-public class WindowsPlugin : Plugins.Plugin, IEnableLogger
+public class WindowsPlugin : Plugin, IEnableLogger
 {
     private const string UninstallKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
     private const string DisplayKeyName = "DisplayName";

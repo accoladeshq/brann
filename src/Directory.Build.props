@@ -1,0 +1,10 @@
+<Project>
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+    <PropertyGroup>
+        <IsPublishable>false</IsPublishable>
+        <PublishRelease>true</PublishRelease>
+        <PublishDir>$(MSBuildThisFileDirectory)\..\artifacts\binaries</PublishDir>
+    </PropertyGroup>
+
+</Project>

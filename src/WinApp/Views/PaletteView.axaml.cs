@@ -1,10 +1,11 @@
-using Avalonia.Controls;
+using Accolades.Brann.ViewModels;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.ReactiveUI;
 
 namespace Accolades.Brann.Views;
 
-public partial class PaletteView : Window
+public partial class PaletteView : ReactiveWindow<PaletteViewModel>
 {
     /// <summary>
     /// Initialize a new <see cref="PaletteView"/>

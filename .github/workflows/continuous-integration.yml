@@ -8,15 +8,19 @@ on:
 
 env:
     DOTNET_VERSION: 7.0.x
+    APP_CONFIGURATION: Release
     APP_PROJECT_PATH: ${{ github.workspace }}/src/WinApp/WinApp.csproj
+    UPDATER_PROJECT_PATH: ${{ github.workspace }}/src/Updater/Updater.csproj
+    INSTALLER_PROJECT_PATH: ${{ github.workspace }}/installer/BrannSetup.sln
     APP_BINARIES_FOLDER: ${{ github.workspace }}/artifacts/binaries
     APP_UNIT_TESTS_PATH: ${{ github.workspace }}/tests/Unit.Tests/Unit.Tests.csproj
     APP_UNIT_TESTS_BINARIES_FOLDER: ${{ github.workspace }}/artifacts/unit-tests
+    APP_SETUP_FOLDER: ${{ github.workspace }}/installer/BrannSetup/x64/Release/Setup
 
 jobs:
     version:
         name: Version
-        runs-on: windows-2019
+        runs-on: windows-2022
         outputs:
             informationVersion: ${{ steps.version.outputs.informationalVersion }} 
             fileVersion: ${{ steps.version.outputs.majorMinorPatch }}
@@ -29,13 +33,15 @@ jobs:
                 fetch-depth: 0
         
           - name: Install GitVersion
-            uses: gittools/actions/gitversion/setup@v1.1.1
+            uses: gittools/actions/gitversion/setup@v3.0.0
             with:
-                versionSpec: '5.x'
+                versionSpec: '6.x'
 
           - name: Determine Version
             id: version
-            uses: gittools/actions/gitversion/execute@v1.1.1   
+            uses: gittools/actions/gitversion/execute@v3.0.0 
+            with:
+              useConfigFile: true
 
     build:
         strategy:
@@ -43,7 +49,7 @@ jobs:
                 include:
                   - os: macos-14
                     name: macOS
-                  - os: windows-2019
+                  - os: windows-2022
                     name: Windows
 
         name: Build ${{ matrix.name }}
@@ -51,9 +57,9 @@ jobs:
         runs-on: ${{ matrix.os }}
 
         env:
-            APP_INFORMATION_VERSION: ${{ needs.version.outputs.informationVersion }}
-            APP_FILE_VERSION: ${{ needs.version.outputs.fileVersion }}
-            APP_VERSION: ${{ needs.version.outputs.version }}
+          APP_INFORMATION_VERSION: ${{ needs.version.outputs.informationVersion }}
+          APP_FILE_VERSION: ${{ needs.version.outputs.fileVersion }}
+          APP_VERSION: ${{ needs.version.outputs.version }}
 
         steps:
           - name: Clone repository
@@ -65,27 +71,27 @@ jobs:
               dotnet-version: | 
                 ${{ env.DOTNET_VERSION }}
 
-          - name: Restore solution
-            run: dotnet restore
-
           - name: Build solution
-            run: dotnet build --no-restore /p:FileVersion=${{ env.APP_FILE_VERSION }} /p:AssemblyVersion=${{ env.APP_VERSION }} /p:InformationalVersion=${{ env.APP_INFORMATION_VERSION }}
+            run: dotnet build -c ${{ env.APP_CONFIGURATION }} /p:FileVersion=${{ env.APP_FILE_VERSION }} /p:AssemblyVersion=${{ env.APP_VERSION }} /p:InformationalVersion=${{ env.APP_INFORMATION_VERSION }}
             
           - name: Publish application
-            run: dotnet publish ${{ env.APP_PROJECT_PATH }} -o ${{ env.APP_BINARIES_FOLDER }} --no-restore --no-build
+            run: dotnet publish ${{ env.APP_PROJECT_PATH }} -c ${{ env.APP_CONFIGURATION }} --no-restore --no-build
             
+          - name: Publish updater
+            run: dotnet publish ${{ env.UPDATER_PROJECT_PATH }} -c ${{ env.APP_CONFIGURATION }} --no-restore --no-build
+
           - name: Publish unit tests
-            run: dotnet publish ${{ env.APP_UNIT_TESTS_PATH }} -o ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }} --no-restore --no-build
+            run: dotnet publish ${{ env.APP_UNIT_TESTS_PATH }} -c ${{ env.APP_CONFIGURATION }} -o ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }} --no-restore --no-build
 
-          - uses: actions/upload-artifact@v4
+          - uses: actions/cache@v4
             with:
-              name: brann-${{ matrix.name }}
-              path: ${{ env.APP_BINARIES_FOLDER }}
+              path: ${{ env.APP_BINARIES_FOLDER}}
+              key: ${{ matrix.name }}-app-${{ github.run_id }}
 
-          - uses: actions/cache@v3
+          - uses: actions/cache@v4
             with:
               path: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER}}
-              key: ${{ matrix.name }}-unit-tests
+              key: ${{ matrix.name }}-unit-tests-${{ github.run_id }}
 
     tests:
       strategy:
@@ -93,7 +99,7 @@ jobs:
             include:
               - os: macos-14
                 name: macOS
-              - os: windows-2019
+              - os: windows-2022
                 name: Windows
 
       name: Test ${{ matrix.name }}
@@ -101,16 +107,89 @@ jobs:
       runs-on: ${{ matrix.os }}
 
       steps:
-        - uses: actions/cache@v3
+        - uses: actions/cache@v4
           with:
             path: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER}}
-            key: ${{ matrix.name }}-unit-tests
+            key: ${{ matrix.name }}-unit-tests-${{ github.run_id }}
         
         - name: Run unit tests
-          if: matrix.os == 'windows-2019'
+          if: matrix.os == 'windows-2022'
           run: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }}/Accolades.Brann.Unit.Tests.exe
 
         - name: Run unit tests
           if: matrix.os == 'macos-14'
           run: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }}/Accolades.Brann.Unit.Tests
           
+    package:
+      strategy:
+        matrix:
+          include:
+            - os: windows-2022
+              name: Windows
+      
+      name: Package ${{ matrix.name }}
+      needs: [version,build]
+      runs-on: ${{ matrix.os }}
+
+      env:
+        APP_INFORMATION_VERSION: ${{ needs.version.outputs.informationVersion }}
+        APP_FILE_VERSION: ${{ needs.version.outputs.fileVersion }}
+        APP_VERSION: ${{ needs.version.outputs.version }}
+
+      steps:
+        - uses: actions/checkout@v4
+
+        - name: Clone repository
+          uses: actions/checkout@v4
+
+        - uses: actions/cache@v4
+          with:
+            path: ${{ env.APP_BINARIES_FOLDER}}
+            key: ${{ matrix.name }}-app-${{ github.run_id }}
+
+        - name: Setup dotnet
+          uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: | 
+              ${{ env.DOTNET_VERSION }}
+
+        - name: Add msbuild to PATH
+          uses: microsoft/setup-msbuild@v2  
+
+        - name: Build solution
+          run: |
+            cd installer
+            msbuild ${{ env.INSTALLER_PROJECT_PATH }} /t:build /p:Configuration=Release /p:Version=${{ env.APP_VERSION }}
+
+        - uses: actions/upload-artifact@v4
+          with:
+            name: setups
+            path: ${{ env.APP_SETUP_FOLDER }}
+
+
+    release:
+      needs: [version,package]
+      runs-on: windows-2022
+      name: Release
+
+      env:
+        APP_VERSION: ${{ needs.version.outputs.version }}
+
+      permissions:
+        contents: write
+
+      steps:
+        - uses: actions/download-artifact@v4
+          with:
+            name: setups
+
+        - uses: ncipollo/release-action@v1
+          with:
+            artifacts: Brann-${{ env.APP_VERSION }}-x64.msi
+            draft: true
+            name: 'v${{ env.APP_VERSION }}'
+            owner: accoladeshq
+            repo: brann
+            tag: ${{ env.APP_VERSION }}
+            token: ${{ secrets.GITHUB_TOKEN }}
+            commit: ${{ github.sha }}

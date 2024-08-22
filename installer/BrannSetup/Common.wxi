@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+	<?define RepoDir="$(var.ProjectDir)..\..\" ?>
+	<?define BinariesDir="$(var.RepoDir)artifacts\binaries" ?>
+	<?define DefaultInstallDir="ProgramFiles64Folder" ?>
+</Include>

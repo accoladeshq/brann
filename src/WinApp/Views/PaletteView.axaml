@@ -29,6 +29,10 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        
+        <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+            <Button Command="{Binding DisplaySettingsCommand}">Settings</Button>
+        </Grid>
     </Grid>
         
 </Window>

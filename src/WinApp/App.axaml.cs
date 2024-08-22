@@ -1,5 +1,6 @@
 using Accolades.Brann.Core;
 using Accolades.Brann.Core.Internals;
+using Accolades.Brann.Models;
 using Accolades.Brann.Plugins.Windows;
 using Accolades.Brann.ViewModels;
 using Accolades.Brann.Views;
@@ -40,10 +41,14 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
+    /// <summary>
+    /// Register application services.
+    /// </summary>
     public override void RegisterServices()
     {
         base.RegisterServices();
 
+        Locator.CurrentMutable.RegisterLazySingleton<IDialogService>(() => new DialogService());
         Locator.CurrentMutable.RegisterLazySingleton<ISuggestionProvider>(
             () => new SuggestionProvider(new[] { new WindowsPlugin() }));
     }
