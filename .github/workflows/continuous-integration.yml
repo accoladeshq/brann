@@ -190,6 +190,6 @@ jobs:
             name: 'v${{ env.APP_VERSION }}'
             owner: accoladeshq
             repo: brann
-            tag: ${{ env.APP_VERSION }}
+            tag: 'v${{ env.APP_VERSION }}'
             token: ${{ secrets.GITHUB_TOKEN }}
             commit: ${{ github.sha }}
