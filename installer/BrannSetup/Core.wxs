@@ -4,13 +4,14 @@
 
 	<Fragment>
 		<DirectoryRef Id="INSTALLFOLDER" FileSource="$(var.BinariesDir)">
-			<Component Id="brann_exe" Win64="yes" Guid="">
+			<Component Id="CMP_EXECUTABLES" Win64="yes" Guid="">
 				<File Id="Brann.exe" Checksum="yes" />
+				<File Id="Brann.Updater.exe" Checksum="yes" />
 			</Component>
 		</DirectoryRef>
 
 		<DirectoryRef Id="ApplicationProgramsFolder">
-			<Component Id="BrannStartMenuShortcut" >
+			<Component Id="CMP_STARTMENU" >
 				<Shortcut Id="ApplicationStartMenuShortcut"
 				Name="Brann (Preview)"
 				Description="Brann - Assistant"
@@ -26,8 +27,8 @@
 
 	<Fragment>
 		<ComponentGroup Id="CoreComponents">
-			<ComponentRef Id="brann_exe" />
-			<ComponentRef Id="BrannStartMenuShortcut"/>
+			<ComponentRef Id="CMP_EXECUTABLES" />
+			<ComponentRef Id="CMP_STARTMENU"/>
 		</ComponentGroup>
 	</Fragment>
 </Wix>

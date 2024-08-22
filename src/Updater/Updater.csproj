@@ -6,6 +6,7 @@
       <SelfContained>true</SelfContained>
       <RuntimeIdentifier>win-x64</RuntimeIdentifier>
       <IsPublishable>true</IsPublishable>
+      <AssemblyName>Brann.Updater</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
