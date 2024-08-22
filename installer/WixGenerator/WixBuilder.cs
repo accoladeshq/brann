@@ -57,6 +57,7 @@ public class WixBuilder
         
         foreach (var file in files)
         {
+            Log.Information($"Adding file {file} to wix file.");
             wix.AddFile(file);
         }
         
