@@ -1,2 +1,5 @@
 workflow: GitHubFlow/v1
 mode: ContinuousDelivery
+branches:
+  pull_request:
+    label: beta

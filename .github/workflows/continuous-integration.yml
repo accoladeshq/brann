@@ -25,6 +25,7 @@ jobs:
       informationVersion: ${{ steps.version.outputs.informationalVersion }}
       fileVersion: ${{ steps.version.outputs.majorMinorPatch }}
       version: ${{ steps.version.outputs.assemblySemVer }}
+      semver: ${{ steps.version.outputs.semVer }}
 
     steps:
       - name: Checkout
@@ -172,6 +173,7 @@ jobs:
     env:
       APP_VERSION: ${{ needs.version.outputs.version }}
       APP_FILE_VERSION: ${{ needs.version.outputs.fileVersion }}
+      APP_SEMVER: ${{ needs.version.outputs.semVer }}
 
     permissions:
       contents: write
@@ -185,7 +187,7 @@ jobs:
         with:
           artifacts: Brann-${{ env.APP_VERSION }}-x64.msi
           draft: true
-          name: "v${{ env.APP_FILE_VERSION }}"
+          name: "v${{ env.APP_SEMVER }}"
           owner: accoladeshq
           repo: brann
           tag: "v${{ env.APP_FILE_VERSION }}"
