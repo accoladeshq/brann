@@ -71,11 +71,8 @@ jobs:
               dotnet-version: | 
                 ${{ env.DOTNET_VERSION }}
 
-          - name: Restore solution
-            run: dotnet restore
-
           - name: Build solution
-            run: dotnet build -c ${{ env.APP_CONFIGURATION }} --no-restore /p:FileVersion=${{ env.APP_FILE_VERSION }} /p:AssemblyVersion=${{ env.APP_VERSION }} /p:InformationalVersion=${{ env.APP_INFORMATION_VERSION }}
+            run: dotnet build -c ${{ env.APP_CONFIGURATION }} /p:FileVersion=${{ env.APP_FILE_VERSION }} /p:AssemblyVersion=${{ env.APP_VERSION }} /p:InformationalVersion=${{ env.APP_INFORMATION_VERSION }}
             
           - name: Publish application
             run: dotnet publish ${{ env.APP_PROJECT_PATH }} -c ${{ env.APP_CONFIGURATION }} --no-restore --no-build
