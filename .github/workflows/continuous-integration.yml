@@ -133,7 +133,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     env:
-      APP_VERSION: ${{ needs.version.outputs.semver }}
+      APP_VERSION: ${{ needs.version.outputs.version }}
 
     steps:
       - uses: actions/checkout@v4
