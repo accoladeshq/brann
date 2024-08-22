@@ -47,8 +47,8 @@ jobs:
         strategy:
             matrix:
                 include:
-                  # - os: macos-14
-                  #   name: macOS
+                  - os: macos-14
+                    name: macOS
                   - os: windows-2022
                     name: Windows
 
@@ -100,8 +100,8 @@ jobs:
       strategy:
           matrix:
             include:
-              # - os: macos-14
-              #   name: macOS
+              - os: macos-14
+                name: macOS
               - os: windows-2022
                 name: Windows
 
@@ -119,9 +119,9 @@ jobs:
           if: matrix.os == 'windows-2022'
           run: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }}/Accolades.Brann.Unit.Tests.exe
 
-        # - name: Run unit tests
-        #   if: matrix.os == 'macos-14'
-        #   run: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }}/Accolades.Brann.Unit.Tests
+        - name: Run unit tests
+          if: matrix.os == 'macos-14'
+          run: ${{ env.APP_UNIT_TESTS_BINARIES_FOLDER }}/Accolades.Brann.Unit.Tests
           
     package:
       strategy:
