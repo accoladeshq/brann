@@ -31,6 +31,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
       <ProjectReference Include="..\Plugins.Windows\Plugins.Windows.csproj" />
+      <ProjectReference Include="..\Updater.GitHub\Updater.GitHub.csproj" />
     </ItemGroup>
 
 

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using Accolades.Brann.Updater.GitHub;
 using Accolades.Brann.Updater.Models;
 using Serilog;
 using Spectre.Console.Cli;

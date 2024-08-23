@@ -1,8 +1,9 @@
-﻿using Accolades.Brann.Updater.Exceptions;
+﻿using Accolades.Brann.Commons.Extensions;
+using Accolades.Brann.Updater.GitHub.Exceptions;
 using Octokit;
 using FileMode = System.IO.FileMode;
 
-namespace Accolades.Brann.Updater.Models;
+namespace Accolades.Brann.Updater.GitHub;
 
 internal class GitHubService : IGitHubService
 {
@@ -22,12 +23,11 @@ internal class GitHubService : IGitHubService
         var architecture = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture;
         
         var a = release.Assets.FirstOrDefault(a => 
-            a.ContentType == Constants.GitHubAppContentType &&
             a.Name.Contains(architecture.ToString(), StringComparison.InvariantCultureIgnoreCase));
 
         if (a is null)
         {
-            throw new UpdaterException($"There is no new release for the architecture {architecture.ToString()}");
+            throw new UpdaterGitHubException($"There is no new release for the architecture {architecture.ToString()}");
         }
 
         return new GithubRelease(

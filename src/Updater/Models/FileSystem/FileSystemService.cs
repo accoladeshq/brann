@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Accolades.Brann.Commons.Extensions;
 
 namespace Accolades.Brann.Updater.Models;
 

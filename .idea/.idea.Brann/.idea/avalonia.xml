@@ -4,6 +4,8 @@
     <option name="projectPerEditor">
       <map>
         <entry key="src/WinApp/App.axaml" value="src/WinApp/WinApp.csproj" />
+        <entry key="src/WinApp/Themes/BaseResources.axaml" value="src/WinApp/WinApp.csproj" />
+        <entry key="src/WinApp/Themes/BaseStyles.axaml" value="src/WinApp/WinApp.csproj" />
         <entry key="src/WinApp/Views/MainWindow.axaml" value="src/WinApp/WinApp.csproj" />
         <entry key="src/WinApp/Views/PaletteView.axaml" value="src/WinApp/WinApp.csproj" />
         <entry key="src/WinApp/Views/SettingsView.axaml" value="src/WinApp/WinApp.csproj" />

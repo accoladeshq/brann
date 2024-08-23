@@ -2,6 +2,7 @@ using Accolades.Brann.Core;
 using Accolades.Brann.Core.Internals;
 using Accolades.Brann.Models;
 using Accolades.Brann.Plugins.Windows;
+using Accolades.Brann.Updater.GitHub;
 using Accolades.Brann.ViewModels;
 using Accolades.Brann.Views;
 using Avalonia;
@@ -49,6 +50,7 @@ public partial class App : Application
         base.RegisterServices();
 
         Locator.CurrentMutable.RegisterLazySingleton<IDialogService>(() => new DialogService());
+        Locator.CurrentMutable.RegisterLazySingleton(GitHubInitializer.CreateService);
         Locator.CurrentMutable.RegisterLazySingleton<ISuggestionProvider>(
             () => new SuggestionProvider(new[] { new WindowsPlugin() }));
     }

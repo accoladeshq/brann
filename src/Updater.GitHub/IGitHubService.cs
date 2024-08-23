@@ -1,6 +1,6 @@
-﻿namespace Accolades.Brann.Updater.Models;
+﻿namespace Accolades.Brann.Updater.GitHub;
 
-internal interface IGitHubService
+public interface IGitHubService
 {
     /// <summary>
     /// Gets the latest gitHub release for the product.

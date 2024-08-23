@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinApp", "src\WinApp\WinApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "src\Updater\Updater.csproj", "{1BB90E9A-0E35-4E28-9CBA-70E496084836}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater.GitHub", "src\Updater.GitHub\Updater.GitHub.csproj", "{44804A61-C8C3-45A2-8AE2-49B7C7CD6C57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons", "src\Commons\Commons.csproj", "{58FBF55E-274A-4856-A6F4-B3A8ACE16049}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +54,14 @@ Global
 		{1BB90E9A-0E35-4E28-9CBA-70E496084836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BB90E9A-0E35-4E28-9CBA-70E496084836}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BB90E9A-0E35-4E28-9CBA-70E496084836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44804A61-C8C3-45A2-8AE2-49B7C7CD6C57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44804A61-C8C3-45A2-8AE2-49B7C7CD6C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44804A61-C8C3-45A2-8AE2-49B7C7CD6C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44804A61-C8C3-45A2-8AE2-49B7C7CD6C57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58FBF55E-274A-4856-A6F4-B3A8ACE16049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58FBF55E-274A-4856-A6F4-B3A8ACE16049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58FBF55E-274A-4856-A6F4-B3A8ACE16049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58FBF55E-274A-4856-A6F4-B3A8ACE16049}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B3CF33B9-9A50-424B-B709-7FD82F2B3786} = {3363AB4E-EB59-48FC-8D9F-00615C8AE831}

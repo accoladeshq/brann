@@ -1,5 +1,6 @@
 ﻿using Accolades.Brann.DependencyInjection;
 using Accolades.Brann.Updater;
+using Accolades.Brann.Updater.GitHub;
 using Accolades.Brann.Updater.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -13,7 +14,7 @@ try
     
     var registrations = new ServiceCollection();
     var registrar = new TypeRegistrar(registrations);
-    registrations.AddSingleton<IGitHubService, GitHubService>();
+    registrations.AddGitHub();
     registrations.AddSingleton<IFileSystemService, FileSystemService>();
 
     var app = new CommandApp<UpdateCommand>(registrar);
