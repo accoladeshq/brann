@@ -186,6 +186,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: Brann-${{ env.APP_VERSION }}-x64.msi
+          artifactContentType: "application/x-msdownload"
           draft: true
           name: "v${{ env.APP_SEMVER }}"
           owner: accoladeshq
