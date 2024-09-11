@@ -9,15 +9,27 @@ internal class SuggestionCategory : ObservableCollection<ISuggestion>, ISuggesti
     /// Initialize a new <see cref="SuggestionCategory"/>.
     /// </summary>
     /// <param name="type">The category type.</param>
-    public SuggestionCategory(SuggestionType type)
+    /// <param name="name">The category name.</param>
+    public SuggestionCategory(SuggestionType type, string name)
     {
         Type = type;
+        Name = name;
     }
 
     /// <summary>
     /// Gets the suggestion type.
     /// </summary>
     public SuggestionType Type { get; }
+
+    /// <summary>
+    /// Gets the suggestion name.
+    /// </summary>
+    public string Name { get; }
+
+    /// <summary>
+    /// Gets value indicating if the suggestion is enabled or not.
+    /// </summary>
+    public bool IsEnabled => false;
 
     /// <summary>
     /// Insert a suggestion into the list.

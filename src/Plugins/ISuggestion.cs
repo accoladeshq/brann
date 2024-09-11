@@ -11,4 +11,9 @@ public interface ISuggestion
     /// Gets the suggestion name.
     /// </summary>
     string Name { get; }
+
+    /// <summary>
+    /// Gets value indicating if the suggestion is enabled or not.
+    /// </summary>
+    bool IsEnabled { get; }
 }

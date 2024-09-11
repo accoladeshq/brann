@@ -34,7 +34,7 @@ internal class Suggestions : ObservableCollection<ISuggestionCategory>, ISuggest
 
         if (existingCategory is null)
         {
-            existingCategory = new SuggestionCategory(suggestion.Type);
+            existingCategory = new SuggestionCategory(suggestion.Type, suggestion.Type.ToString());
             Add(existingCategory);
         }
             

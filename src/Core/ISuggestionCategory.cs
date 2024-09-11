@@ -2,13 +2,8 @@ using Accolades.Brann.Plugins;
 
 namespace Accolades.Brann.Core;
 
-public interface ISuggestionCategory : IEnumerable<ISuggestion>
+public interface ISuggestionCategory : IEnumerable<ISuggestion>, ISuggestion
 {
-    /// <summary>
-    /// Gets the suggestion type.
-    /// </summary>
-    public SuggestionType Type { get; }
-
     /// <summary>
     /// Add a suggestion to this category.
     /// </summary>

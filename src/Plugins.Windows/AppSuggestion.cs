@@ -11,7 +11,12 @@ public class AppSuggestion : ISuggestion
     /// Gets the app. suggestion name.
     /// </summary>
     public string Name { get; }
-    
+
+    /// <summary>
+    /// Gets value indicating if the suggestion is enabled or not.
+    /// </summary>
+    public bool IsEnabled => true;
+
     /// <summary>
     /// Gets the suggestion type.
     /// </summary>
