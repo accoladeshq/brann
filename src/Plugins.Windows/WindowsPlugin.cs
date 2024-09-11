@@ -18,13 +18,18 @@ public class WindowsPlugin : Plugin, IEnableLogger
         _applications = new List<string>();
     }
 
+    /// <inheritdoc cref="Plugin.Search"/>
     public override Task<IEnumerable<ISuggestion>> Search(string search, CancellationToken cancellationToken)
     {
-        var suggestions = _applications.Select(app => new AppSuggestion(app)).Cast<ISuggestion>().ToList();
+        var suggestions = _applications
+            .Where(app => app.Contains(search, StringComparison.CurrentCultureIgnoreCase) || string.IsNullOrWhiteSpace(search))
+            .Select(app => new AppSuggestion(app))
+            .Cast<ISuggestion>().ToList();
 
         return Task.FromResult<IEnumerable<ISuggestion>>(suggestions);
     }
 
+    /// <inheritdoc cref="Plugin.Initialize"/>
     public override Task Initialize()
     {
         if (!OperatingSystem.IsWindows())
