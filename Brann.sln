@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinApp", "src\WinApp\WinApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "src\Updater\Updater.csproj", "{1BB90E9A-0E35-4E28-9CBA-70E496084836}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.ChatGpt", "src\Plugins.ChatGpt\Plugins.ChatGpt.csproj", "{B11D19B8-1D08-49F7-B50A-87AE9115794B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{1BB90E9A-0E35-4E28-9CBA-70E496084836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BB90E9A-0E35-4E28-9CBA-70E496084836}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BB90E9A-0E35-4E28-9CBA-70E496084836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B11D19B8-1D08-49F7-B50A-87AE9115794B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B11D19B8-1D08-49F7-B50A-87AE9115794B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B11D19B8-1D08-49F7-B50A-87AE9115794B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B11D19B8-1D08-49F7-B50A-87AE9115794B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B3CF33B9-9A50-424B-B709-7FD82F2B3786} = {3363AB4E-EB59-48FC-8D9F-00615C8AE831}

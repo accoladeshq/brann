@@ -10,7 +10,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Avalonia\Controls\" />
         <AvaloniaResource Include="Assets\**"/>
     </ItemGroup>
 
@@ -30,6 +29,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
+      <ProjectReference Include="..\Plugins.ChatGpt\Plugins.ChatGpt.csproj" />
       <ProjectReference Include="..\Plugins.Windows\Plugins.Windows.csproj" />
     </ItemGroup>
 
