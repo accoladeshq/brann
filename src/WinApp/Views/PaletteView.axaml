@@ -6,6 +6,7 @@
         xmlns:localizations="clr-namespace:Accolades.Brann.Localizations"
         xmlns:plugins="clr-namespace:Accolades.Brann.Plugins;assembly=Accolades.Brann.Plugins"
         xmlns:core="clr-namespace:Accolades.Brann.Core;assembly=Accolades.Brann.Core"
+        xmlns:converters="clr-namespace:Accolades.Brann.Converters"
         mc:Ignorable="d" x:Class="Accolades.Brann.Views.PaletteView"
         x:DataType="viewModels:PaletteViewModel"
         WindowStartupLocation="CenterOwner"
@@ -15,12 +16,16 @@
         SizeToContent="WidthAndHeight" SystemDecorations="BorderOnly" CanResize="False"
         Title="{x:Static localizations:Resources.ApplicationName}"
         Loaded="OnLoaded">
-    
+
+
+    <Window.Resources>
+        <converters:FlattenSuggestionsConverter x:Key="FlattenSuggestionsConverter" />
+    </Window.Resources>
     
     <Grid RowDefinitions="Auto,*,Auto" Height="600" Width="800">
-        <TextBox x:Name="SearchBox" Padding="20" KeyDown="OnKeyDown" Text="{Binding SearchTerm, Mode=TwoWay}"></TextBox>
+        <TextBox x:Name="SearchBox" Padding="20" KeyDown="OnKeyDown" Text="{Binding SuggestionProvider.SearchTerm, Mode=TwoWay}"></TextBox>
         
-        <ListBox Padding="0" x:Name="SuggestionsBox" Grid.Row="1" CornerRadius="0,0,10,10" ItemsSource="{Binding Suggestions }">
+        <ListBox Padding="0" x:Name="SuggestionsBox" Grid.Row="1" CornerRadius="0,0,10,10" ItemsSource="{Binding SuggestionProvider.Suggestions, Converter={ StaticResource FlattenSuggestionsConverter }}">
             <ListBox.Styles>
                 <Style Selector="ListBoxItem" x:DataType="plugins:ISuggestion">
                     <Setter Property="IsEnabled" Value="{Binding IsEnabled }"></Setter>
