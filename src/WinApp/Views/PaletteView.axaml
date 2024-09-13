@@ -4,9 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Accolades.Brann.ViewModels"
         xmlns:localizations="clr-namespace:Accolades.Brann.Localizations"
-        xmlns:plugins="clr-namespace:Accolades.Brann.Plugins;assembly=Accolades.Brann.Plugins"
-        xmlns:core="clr-namespace:Accolades.Brann.Core;assembly=Accolades.Brann.Core"
-        xmlns:converters="clr-namespace:Accolades.Brann.Converters"
+        xmlns:reactiveUi="http://reactiveui.net"
+        xmlns:views="clr-namespace:Accolades.Brann.Views"
+        xmlns:brann="clr-namespace:Accolades.Brann"
         mc:Ignorable="d" x:Class="Accolades.Brann.Views.PaletteView"
         x:DataType="viewModels:PaletteViewModel"
         WindowStartupLocation="CenterOwner"
@@ -14,39 +14,20 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="0"
         SizeToContent="WidthAndHeight" SystemDecorations="BorderOnly" CanResize="False"
-        Title="{x:Static localizations:Resources.ApplicationName}"
-        Loaded="OnLoaded">
+        Title="{x:Static localizations:Resources.ApplicationName}">
 
 
-    <Window.Resources>
-        <converters:FlattenSuggestionsConverter x:Key="FlattenSuggestionsConverter" />
-    </Window.Resources>
-    
-    <Grid RowDefinitions="Auto,*,Auto" Height="600" Width="800">
-        <TextBox x:Name="SearchBox" Padding="20" KeyDown="OnKeyDown" Text="{Binding SuggestionProvider.SearchTerm, Mode=TwoWay}"></TextBox>
+    <Grid RowDefinitions="*,Auto" Height="600" Width="800">
+        <reactiveUi:RoutedViewHost Router="{Binding Router}">
+            <reactiveUi:RoutedViewHost.DefaultContent>
+                <!-- <views:SuggestionsView /> -->
+            </reactiveUi:RoutedViewHost.DefaultContent>
+            <reactiveUi:RoutedViewHost.ViewLocator>
+                <brann:ViewLocator />
+            </reactiveUi:RoutedViewHost.ViewLocator>
+        </reactiveUi:RoutedViewHost>
         
-        <ListBox Padding="0" x:Name="SuggestionsBox" Grid.Row="1" CornerRadius="0,0,10,10" ItemsSource="{Binding SuggestionProvider.Suggestions, Converter={ StaticResource FlattenSuggestionsConverter }}">
-            <ListBox.Styles>
-                <Style Selector="ListBoxItem" x:DataType="plugins:ISuggestion">
-                    <Setter Property="IsEnabled" Value="{Binding IsEnabled }"></Setter>
-                </Style>
-            </ListBox.Styles>
-            <ListBox.DataTemplates>
-                <DataTemplate x:DataType="core:ISuggestionCategory">
-                    <Grid ColumnDefinitions="auto">
-                        <TextBlock  Padding="10 5" Text="{Binding Name}" FontWeight="Regular" FontSize="10" Foreground="Gray"></TextBlock>
-                    </Grid>
-                </DataTemplate>
-                <DataTemplate x:DataType="plugins:ISuggestion">
-                    <Grid ColumnDefinitions="*,auto">
-                        <TextBlock Padding="10" Text="{Binding Name}"></TextBlock>
-                        <TextBlock Grid.Column="1" Padding="10" Text="{Binding Type}" FontWeight="ExtraLight"></TextBlock>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.DataTemplates>
-        </ListBox>
-        
-        <Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
             <Button Command="{Binding DisplaySettingsCommand}">Settings</Button>
         </Grid>
     </Grid>

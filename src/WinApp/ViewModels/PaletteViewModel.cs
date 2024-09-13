@@ -1,14 +1,13 @@
 ﻿using System.Reactive;
 using System.Windows.Input;
 using Accolades.Brann.Avalonia;
-using Accolades.Brann.Core;
 using Accolades.Brann.Models;
 using ReactiveUI;
 using Splat;
 
 namespace Accolades.Brann.ViewModels;
 
-public class PaletteViewModel : ViewModelBase
+public class PaletteViewModel : ViewModelBase, IScreen, IActivatableViewModel
 {
     private readonly IDialogService _dialogService;
     
@@ -17,21 +16,31 @@ public class PaletteViewModel : ViewModelBase
     /// </summary>
     public PaletteViewModel()
     {
-        SuggestionProvider = Locator.Current.GetRequiredService<ISuggestionProvider>();
+        
         _dialogService = Locator.Current.GetRequiredService<IDialogService>();
         _displaySettingsCommand = ReactiveCommand.CreateFromTask(DisplaySettings);
+
+        Router = new RoutingState();
+        Activator = new ViewModelActivator();
+        
+        this.WhenActivated(Activate);
     }
+
+    /// <summary>
+    /// Get the view model activator.
+    /// </summary>
+    public ViewModelActivator Activator { get; }
+    
+    /// <summary>
+    /// Gets the router.
+    /// </summary>
+    public RoutingState Router { get; }
     
     private readonly ReactiveCommand<Unit, Unit> _displaySettingsCommand;
     /// <summary>
     /// Gets the command to display settings view.
     /// </summary>
     public ICommand DisplaySettingsCommand => _displaySettingsCommand;
-    
-    /// <summary>
-    /// Gets the suggestion provider.
-    /// </summary>
-    public ISuggestionProvider SuggestionProvider { get; }
     
     /// <summary>
     /// Display settings view.
@@ -42,5 +51,14 @@ public class PaletteViewModel : ViewModelBase
     {
         var r = await _dialogService.Open<SettingsViewModel, Unit>();
         return r;
+    }
+    
+    /// <summary>
+    /// Occurs when the view is activated.
+    /// </summary>
+    /// <param name="disposable">The disposable action.</param>
+    private void Activate(Action<IDisposable> disposable)
+    {
+        Router.Navigate.Execute(new SuggestionsViewModel(this));
     }
 }
