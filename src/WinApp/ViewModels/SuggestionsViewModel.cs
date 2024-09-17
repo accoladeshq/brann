@@ -1,5 +1,8 @@
-﻿using Accolades.Brann.Avalonia;
+﻿using System.Reactive;
+using System.Windows.Input;
+using Accolades.Brann.Avalonia;
 using Accolades.Brann.Core;
+using Accolades.Brann.Plugins;
 using ReactiveUI;
 using Splat;
 
@@ -17,6 +20,11 @@ public class SuggestionsViewModel : ViewModelBase, IRoutableViewModel
         UrlPathSegment = "Suggestions";
         
         SuggestionProvider = Locator.Current.GetRequiredService<ISuggestionProvider>();
+
+        _executeCommand = ReactiveCommand.CreateFromTask<ISuggestion>((suggestion, token) =>
+        {
+            return Task.FromResult(Unit.Default);
+        });
     }
     
     /// <summary>
@@ -24,6 +32,12 @@ public class SuggestionsViewModel : ViewModelBase, IRoutableViewModel
     /// </summary>
     public ISuggestionProvider SuggestionProvider { get; }
 
+    private ReactiveCommand<ISuggestion, Unit> _executeCommand;
+    /// <summary>
+    /// Gets the command to execute the suggestion.
+    /// </summary>
+    public ICommand ExecuteCommand => _executeCommand;
+    
     /// <summary>
     /// Gets the path segment to identify a url.
     /// </summary>

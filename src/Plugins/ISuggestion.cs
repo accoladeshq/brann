@@ -16,4 +16,6 @@ public interface ISuggestion
     /// Gets value indicating if the suggestion is enabled or not.
     /// </summary>
     bool IsEnabled { get; }
+    
+    public Task Execute();
 }

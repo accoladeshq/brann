@@ -6,6 +6,7 @@ using Avalonia.ReactiveUI;
 
 namespace Accolades.Brann.Views;
 
+// ReSharper disable once UnusedType.Global
 public partial class SuggestionsView : ReactiveUserControl<SuggestionsViewModel>
 {
     public SuggestionsView()
@@ -28,8 +29,9 @@ public partial class SuggestionsView : ReactiveUserControl<SuggestionsViewModel>
         
         firstItem.Focus();
     }
-    
-    private void OnListBoxTapped(object? sender, TappedEventArgs e)
+
+    private void OnTapped(object? sender, TappedEventArgs e)
     {
+        Console.WriteLine(e.Source);
     }
 }

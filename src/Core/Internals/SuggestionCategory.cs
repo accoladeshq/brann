@@ -31,6 +31,11 @@ internal class SuggestionCategory : ObservableCollection<ISuggestion>, ISuggesti
     /// </summary>
     public bool IsEnabled => false;
 
+    public Task Execute()
+    {
+        throw new NotImplementedException();
+    }
+
     /// <summary>
     /// Insert a suggestion into the list.
     /// </summary>

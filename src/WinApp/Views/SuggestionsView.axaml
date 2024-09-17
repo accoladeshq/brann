@@ -6,6 +6,7 @@
              xmlns:viewModels="clr-namespace:Accolades.Brann.ViewModels"
              xmlns:plugins="clr-namespace:Accolades.Brann.Plugins;assembly=Accolades.Brann.Plugins"
              xmlns:core="clr-namespace:Accolades.Brann.Core;assembly=Accolades.Brann.Core"
+             xmlns:avalonia="clr-namespace:Accolades.Brann.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="viewModels:SuggestionsViewModel"
              x:Class="Accolades.Brann.Views.SuggestionsView"
@@ -17,8 +18,10 @@
     
     <Grid RowDefinitions="Auto,*">
         <TextBox x:Name="SearchBox" Padding="20" KeyDown="OnKeyDown" Text="{Binding SuggestionProvider.SearchTerm, Mode=TwoWay}"></TextBox>
-    
-        <ListBox Tapped="OnListBoxTapped" Padding="0" x:Name="SuggestionsBox" Grid.Row="1" CornerRadius="0,0,10,10" ItemsSource="{Binding SuggestionProvider.Suggestions, Converter={ StaticResource FlattenSuggestionsConverter }}">
+        
+        <ListBox x:Name="SuggestionsBox" avalonia:ListBoxBehavior.Command="{Binding ExecuteCommand}"
+                 Padding="0" Grid.Row="1" CornerRadius="0,0,10,10" 
+                 ItemsSource="{Binding SuggestionProvider.Suggestions, Converter={ StaticResource FlattenSuggestionsConverter }}">
             <ListBox.Styles>
                 <Style Selector="ListBoxItem" x:DataType="plugins:ISuggestion">
                     <Setter Property="IsEnabled" Value="{Binding IsEnabled }"></Setter>
